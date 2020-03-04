@@ -13,6 +13,7 @@ public class placeholderTalk : MonoBehaviour
     public KMBombInfo Info;
     public TextMesh Screen;
     public KMSelectable[] btn;
+    public TextMesh[] txt;
     public Transform[] anchor;
 
     private bool _isSolved = false, _lightsOn = false, _isRandomising = false, formatText = true, _debug = false;
@@ -20,6 +21,7 @@ public class placeholderTalk : MonoBehaviour
     private sbyte _previousModuleCarry = 0;
     private short _answerOffsetId;
     private int _moduleId = 0;
+    private float _yAnchor;
     private string _screenText1 = "", _screenText2 = "";
 
     private static bool _playSound;
@@ -74,10 +76,33 @@ public class placeholderTalk : MonoBehaviour
             float amplified = 0.0025f;
 
             float x = anchor[i].transform.position.x;
-            float y = anchor[i].transform.position.y;
+            //moves it inwards when solved
+            float y = anchor[i].transform.position.y - _yAnchor / 50000;
             //ensures that it stays snapped to the module, it can easily go offscreen
             float z = anchor[i].transform.position.z - (Mathf.Sin(Time.time + i * Mathf.PI / 2) * amplified);
 
+            //if it's solved the buttons should move inwards
+            if (_isSolved && btn[i].transform.position.y > -0.005)
+            {
+                _yAnchor += 1f;
+
+                if (_yAnchor < 245)
+                {
+                    //100 thousand so that it decreases -5 every frame
+                    byte a = (byte)(txt[i].color.a - _yAnchor);
+
+                    txt[i].color = new Color32(0, 0, 0, a);
+                    Screen.color = new Color32(255, 216, 0, a);
+                }
+
+                else
+                {
+                    txt[i].color = new Color32(0, 0, 0, 0);
+                    Screen.color = new Color32(255, 216, 0, 0);
+                }
+            }
+
+            //update button positions
             btn[i].transform.position = new Vector3(x, y, z);
         }
         
@@ -248,7 +273,7 @@ public class placeholderTalk : MonoBehaviour
             case 162:
             case 163:
                 formatText = true;
-                searchRange = 34;
+                searchRange = 36;
                 Screen.fontSize = 70;
                 break;
 
@@ -359,9 +384,6 @@ public class placeholderTalk : MonoBehaviour
             //1 in 100 chance of getting a funny message
             if (Random.Range(0, 100) == 0)
                 Screen.text = "talk time :)";
-
-            else
-                Screen.text = "";
 
             Module.HandlePass();
             Audio.PlaySoundAtTransform("disarm", Module.transform);
@@ -690,8 +712,8 @@ public class placeholderTalk : MonoBehaviour
             "ADD N IN SECOND PHRASE WHERE N = AMOUNT OF TIMES THIS MODULE HAS BEEN SOLVED IN YOUR CURRENT BOMB",
 
             //68
-            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Assets/placeholderTalk.cs on line 684",
-            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Manual/placeholderTalk.html on line 373",
+            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Assets/placeholderTalk.cs on line 715",
+            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Manual/placeholderTalk.html on line 374",
             "/give @a command_block {Name:\"\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\\"} 1",
             "/ u r a u r a \" \\ Parse Error \" u r a \" \\ Parse u r a / \" \\ Parse Error \" Error \" \\ Parse Error / \"",
 
