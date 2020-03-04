@@ -16,7 +16,7 @@ public class placeholderTalk : MonoBehaviour
     public TextMesh[] txt;
     public Transform[] anchor;
 
-    private bool _isSolved = false, _lightsOn = false, _isRandomising = false, formatText = true, _debug = false;
+    private bool _isSolved = false, _lightsOn = false, _isRandomising = false, formatText = true, _animate = true, _debug = true;
     private byte _answerId, _questionId, _questionOffsetId, _randomised = 0, frames = 0;
     private sbyte _previousModuleCarry = 0;
     private short _answerOffsetId;
@@ -73,16 +73,17 @@ public class placeholderTalk : MonoBehaviour
         for (int i = 0; i < btn.Length; i++)
         {
             //amplification here
-            float amplified = 0.0025f;
+            float amplified = 0.0064f;
+     
+            if (_animate)
+                anchor[i].transform.localPosition = new Vector3(anchor[i].transform.localPosition.x, anchor[i].transform.localPosition.y - (_yAnchor / 1000000), Mathf.Sin(Time.time + i * Mathf.PI / 2) * amplified - 0.064f);
 
             float x = anchor[i].transform.position.x;
-            //moves it inwards when solved
-            float y = anchor[i].transform.position.y - _yAnchor / 50000;
-            //ensures that it stays snapped to the module, it can easily go offscreen
-            float z = anchor[i].transform.position.z - (Mathf.Sin(Time.time + i * Mathf.PI / 2) * amplified);
+            float y = anchor[i].transform.position.y;
+            float z = anchor[i].transform.position.z;
 
             //if it's solved the buttons should move inwards
-            if (_isSolved && btn[i].transform.position.y > -0.005)
+            if (_isSolved && _yAnchor <= 350)
             {
                 _yAnchor += 1f;
 
@@ -100,6 +101,9 @@ public class placeholderTalk : MonoBehaviour
                     txt[i].color = new Color32(0, 0, 0, 0);
                     Screen.color = new Color32(255, 216, 0, 0);
                 }
+
+                if (_yAnchor == 350)
+                    _animate = false;
             }
 
             //update button positions
@@ -144,7 +148,7 @@ public class placeholderTalk : MonoBehaviour
         {
             //frame counter, a cycle is however many frames it modulates
             frames++;
-            frames %= 255;
+            frames %= 25;
 
             if (frames == 0)
                 UpdateText(false);
@@ -168,6 +172,7 @@ public class placeholderTalk : MonoBehaviour
             //determine the prompts given
             _questionOffsetId = 15;
             _questionId = 158;
+            //_questionId = 62;
         }
 
         Debug.LogFormat("");
@@ -273,8 +278,8 @@ public class placeholderTalk : MonoBehaviour
             case 162:
             case 163:
                 formatText = true;
-                searchRange = 36;
-                Screen.fontSize = 70;
+                searchRange = 35;
+                Screen.fontSize = 60;
                 break;
 
             //normal display
