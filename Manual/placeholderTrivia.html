@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Placeholder Talk — Keep Talking and Nobody Explodes Module</title>
+    <meta name="viewport" content="initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/font.css">
+    <script src="js/ktane-utils.js"></script>
+</head>
+<body>
+    <div id="ManualContent">
+        <div class="section">
+            <div class="page page-bg-01">
+                <div class="page-header">
+                    <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                    <span class="page-header-section-title">Placeholder Talk</span>
+                </div>
+                <div class="page-content">
+                    <img src="img/Component/Module Name.svg" class="diagram">
+                    <h2>On the Subject of Placeholder Talk</h2>
+                    <p class="flavour-text">Maybe we should've waited for a Stable release...</p>
+
+                    <p>The module has a display containing a message alongside 4 buttons below it. The message consists of two unique phrases, the first one describes an ordinal and can be solved within this first page. The second phrase containing a message found in pages 2-6. Your task is to identify which button (1-4) should be pushed. Figure out the two variables needed then apply the formula: <strong>Push button = (FIRST PHRASE + SECOND PHRASE) mod 4.</strong> Press fourth if you get 0.</p>
+
+                    <h3>Deducing the module's first phrase</h3>
+						<p></p>
+						<p>To figure out the value from the first phrase, do the following steps:</p>
+						<p></p>
+                    <ol>
+						<li>Start with N=1</li>
+                        <li>Add 1 to N for every strike.</li>
+						<li>Multiply N by the number of batteries.</li>
+						<li>Add 1 to N for every "\" only if the second phrase has an odd number of "/".</li>
+						<li>If the second phrase is 3 lines long, follow the instructions within it.</li>
+						<li>Do (N - M) with whichever condition is fulfilled:</li>	
+                    </ol>
+					
+					<table>
+                        <tr>
+                            <th>Words within first phrase</th>
+                            <th>M is equal to</th>
+                        </tr>
+						<tr>
+                            <th>""</th>
+                            <td>-1</td>
+                        </tr>
+                        <tr>
+                            <th>"IS IN THE"</th>
+                            <td rowspan="3">0</td>
+                        </tr>
+                        <tr>
+                            <th>"IS ON THE"</th>
+                        </tr>
+						<tr>
+                            <th>"IS IN UHHH"</th>
+                        </tr>
+						<tr>
+                            <th>"IS"</th>
+                            <td rowspan="3">1</td>
+                        </tr>
+                        <tr>
+                            <th>"IS AT THE"</th>
+                        </tr>
+						<tr>
+                            <th>"IS INNNN"</th>
+                        </tr>
+						<tr>
+                            <th>"IS THE IN"</th>
+                            <td rowspan="3">2</td>
+                        </tr>
+                        <tr>
+                            <th>"IN IS"</th>
+                        </tr>
+						<tr>
+                            <th>"IS IN..."</th>
+                        </tr>
+						<tr>
+                            <th>"IS IN"</th>
+                            <td rowspan="3">3</td>
+                        </tr>
+                        <tr>
+                            <th>"THE"</th>
+                        </tr>
+						<tr>
+							<th>"IS FIRST- NO I MEAN"</th>
+                        </tr>
+						<tr>
+                            <th>"IN"</th>
+                            <td>27</td>
+                        </tr>
+						<tr>
+                            <th>"UHHH IS IN"</th>
+                            <td>30</td>
+                        </tr>
+					</table>
+                </div>
+                <div class="page-footer relative-footer">Page 1 of 6</div>
+            </div>
+            <div class="page page-bg-02">
+                <div class="page-header">
+                    <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                    <span class="page-header-section-title">Placeholder Talk</span>
+                </div>
+                <div class="page-content">
+					<h3>Deducing the module's second phrase</h3>
+					
+					<p></p>
+					<p>This is part of the source code which will help you extract the value from the second phrase. This can be calculated by the remainder of the line number below divided by 4. That means that the first line in every paragraph will always equal 1, and likewise, the last line for a given paragraph will always equal 4.</p>
+					<p></p>
+					
+					<p><code>string[] question = new string[120]<br/>{ <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"\ / \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACKSLASH SLASH BACKSLASH", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"\ SLASH \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACKSLASH / BACKSLASH",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACKSLASH BACK / \ \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"\ \ \ \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACKSLASH BACKSLASH BACK / \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"\ \ \ BACKSLASH", </code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACK \ SLASH \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACK / \ BACK /", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACK BACKSLASH / \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACK \ / \", </code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACK SLASH / BACK SLASH", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACK SLASH BACK SLASH BACK / \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACK SLASH SLASH BACK SLASH", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACK BACK SLASH / \",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BLACKSASH", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"\ \ \ BACK SLASH", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"LITERALLY JUST A / AND THEN A \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"LITERALLY JUST A SLASH AND THEN A \",</code></p>
+					
+                </div>
+                <div class="page-footer relative-footer">Page 2 of 6</div>
+            </div>
+			<div class="page page-bg-03">
+                <div class="page-header">
+                    <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                    <span class="page-header-section-title">Placeholder Talk</span>
+                </div>
+                <div class="page-content">
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ALL OF THESE ARE WORDS: \ / \ / \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ALL OF THESE ARE SYMBOLS: SLASH SLASH BACKSLASH", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACKSLASH SLASH SLASH, THE FIRST AND THIRD ARE SYMBOLS", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THE FIRST, SECOND AND THIRD ARE ALL SYBMOLS, READY? \ \ \ BACKSLASH",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"WAIT, IS THIS A BACKSLASH?", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"WAIT IS THIS A BACKSLASH?", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACK SLASH BACK AND SLASH", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACKSLASH BACK AND SLASH",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"\ SLASH / SLASH / SLASH / SLASH \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"WAIT HOW MANY BATTERIES DO WE HAVE", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"QUOTE BACKSLASH SLASH BACKSLASH END QUOTE SYMBOLS", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACKSASH",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/ * / = /", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/ * \ = \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"\ * \ = \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"\ * / = \",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"NOTHING", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"LITERALLY NOTHING", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"NULL",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"EMPTY", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"IT'S EMPTY", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"I CAN'T SEE ANYTHING", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THE LIGHTS WENT OUT, HOLD ON",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"WAIT THERE'S MATH HERE TOO? IT SAYS \ * \ = \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"DOES IT MATTER THAT SOME LACK PERIODS? / \ \ / BY THE WAY", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"A VERY LONG LIST OF SLASHES", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"A VERY LONG LIST OF SLASH",</code></p>
+                </div>
+                <div class="page-footer relative-footer">Page 3 of 6</div>
+            </div>
+			<div class="page page-bg-04">
+                <div class="page-header">
+                    <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                    <span class="page-header-section-title">Placeholder Talk</span>
+                </div>
+                <div class="page-content">
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/ / / / / / / / / / / / / / / / / / / / / / / /", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"LAST DIGIT OF THE SERIAL NUMBER", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"QUOTE SLASH END QUOTE", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACK- I MEAN SLASH NOT BACKSLASH THEN A BACKSLASH",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BLACKHASH", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACKHASH", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THERE ARE TWENTY OR SOMETHING SLASHES", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THERE ARE 20 OR SOMETHING SLASHES",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"TWO BACKSLASHES", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"2 BACKSLASHES", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"TO BACKSLASHES", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"TOO BACKSLASHES",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"TWO \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"TWO \ES", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THERE ARE TWO BACKSLASHES", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THERE'RE TWO BACKSLASHES",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THEIR ARE TWO BACKSLASHES", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THEY'RE ARE TWO BACKSLASHES", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ADD -N IN SECOND PHRASE WHERE N = AMOUNT OF TIMES THIS MODULE HAS BEEN SOLVED IN YOUR CURRENT BOMB", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ADD N IN SECOND PHRASE WHERE N = AMOUNT OF TIMES THIS MODULE HAS BEEN SOLVED IN YOUR CURRENT BOMB",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Parse error: syntax error, unexpected ''\'' in /placeholderTalk/Assets/placeholderTalk.cs on line 283",<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Parse error: syntax error, unexpected ''\'' in /placeholderTalk/Manual/placeholderTalk.html on line 150", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/give @a command_block{Name:''\ \ \ \ \ \ \ \ \ \ \ \ \''} 1", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/u r a u r a ''\ Parse Error''u r a ''\ Parse u r a /''\ Parse Error''Error''\ Parse Error/''",</code></p>
+					
+                </div>
+				<div class="page-footer relative-footer">Page 4 of 6</div>
+			</div>
+			<div class="page page-bg-05">
+                <div class="page-header">
+                    <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                    <span class="page-header-section-title">Placeholder Talk</span>
+                </div>
+                <div class="page-content">
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"WAIT THE ALARM WENT OFF", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"MY GAME CRASHED", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BE RIGHT BACK", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"I THOUGHT I DISABLED VANILLA MODULES",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"WE HAVE WIRE SEQUENCES BLACK TO CHARLIE", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"WE HAVE WIRE SEQUENCES BLACK TO C", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"WE HAVE WIRE SEQUENCES BLACK TO SEA", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"WE HAVE WIRE SEQUENCES BLACK TO SEE",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"SINCE WHEN DID WE HAVE A NEEDY?", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"OH MY GOD THIS IS SO CURSED", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"OH MY GOD THIS IS SO CONFUSING", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THE ENTIRE ALPHABET",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"WE HAVE TEN SECONDS", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ALPHA BRAVO CHARLIE AND \n\nSO ON", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ABCDEFGHIJKLLNOPQRSTUVWXYZ", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ABCDEFGHIJKLMNOPQRSTUVWXYZ",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THE ENTIRE ALPHABET BUT LETTERS", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"LITERALLY THE ENTIRE ALPHABET", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ARE BEADY CUE DJANGO EYE FIJI", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THE ENTIRE ALFABET BUT LETTERS",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ALFA BRAVO CHARLIE DELTA ECHO FOXTROT",<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"AISLE BDELLIUM CUE DJEMBE EYE PHONEIC", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"A B C D E F", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"AYY BEE CEE DEE EEE EFF",</code></p>
+					
+                </div>
+                <div class="page-footer relative-footer">Page 5 of 6</div>
+            </div>
+			<div class="page page-bg-06">
+                <div class="page-header">
+                    <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                    <span class="page-header-section-title">Placeholder Talk</span>
+                </div>
+                <div class="page-content">
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ABORT, WE'RE STARTING OVER", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"I AM GONNA RESTART", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"\ / \ WE HAVE ONE STRIKE", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BACKSLASH BACKSLASH BACK / \ WITH ONE STRIKE",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"YOU ARE CUTTING OUT", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"I CANNOT HEAR YOU", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THIS IS THREE LINES LONG", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"PUSH ONE THREE LINES LONG",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"SLAAAAAASH", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"SLAAAAAAASH", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"SLAAAAAAAASH", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"SLAAAAAAAAASH", </code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"OKAY I GUESSED AND IT WAS CORRECT", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"I THINK THE MOD IS BROKEN", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THERE ARE 3 BATTERIES. LITERALLY JUST A / AND THEN A \", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"DOES THE MANUAL SAY ANYTHING ABOUT A SECOND STAGE?",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"WHAT IS YOUR LEAST FAVORITE MODULE?", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THIS MASSAGE IS REALLY HARD TO COMMUNICATE", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THIS MESSAGE IS REALLY HARD TO COMMUNICATE", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THE ANSWER IS IN THE UHHH SECOND POSITION",</code></p>
+					<p><code><br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"SOME CHINESE CHARACTERS", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"頁 - 設 - 是 - 煵", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"THE TEXT DOESN'T FIT", <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" <br/>};</code></p>
+					
+                </div>
+                <div class="page-footer relative-footer">Page 6 of 6</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
