@@ -16,7 +16,7 @@ public class placeholderTalk : MonoBehaviour
     public TextMesh[] txt;
     public Transform[] anchor;
 
-    private bool _isSolved = false, _lightsOn = false, _isRandomising = false, formatText = true, _animate = true, _debug = true;
+    private bool _isSolved = false, _lightsOn = false, _isRandomising = false, formatText = true, _animate = true, _debug = false;
     private byte _answerId, _questionId, _questionOffsetId, _randomised = 0, frames = 0;
     private sbyte _previousModuleCarry = 0;
     private short _answerOffsetId;
