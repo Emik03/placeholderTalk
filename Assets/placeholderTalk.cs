@@ -717,7 +717,7 @@ public class placeholderTalk : MonoBehaviour
             "ADD N IN SECOND PHRASE WHERE N = AMOUNT OF TIMES THIS MODULE HAS BEEN SOLVED IN YOUR CURRENT BOMB",
 
             //68
-            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Assets/placeholderTalk.cs on line 715",
+            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Assets/placeholderTalk.cs on line 720",
             "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Manual/placeholderTalk.html on line 374",
             "/give @a command_block {Name:\"\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\\"} 1",
             "/ u r a u r a \" \\ Parse Error \" u r a \" \\ Parse u r a / \" \\ Parse Error \" Error \" \\ Parse Error / \"",
