@@ -376,8 +376,8 @@ public class placeholderTalk : MonoBehaviour
     /// <param name="num">The button that has been pushed, with the index being used as a comparsion against the answer of the module.</param>
     void HandlePress(int num)
     {
-        //play sound
         Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, btn[num].transform);
+        btn[num].AddInteractionPunch(2);
 
         //if the lights are off or it's solved or it's randomising, do nothing
         if (!_lightsOn || _isSolved || _isRandomising)
