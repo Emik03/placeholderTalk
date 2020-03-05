@@ -1393,7 +1393,8 @@ MonoBehaviour:
   Audio: {fileID: 114037161847687636}
   Module: {fileID: 114466871040107044}
   Info: {fileID: 114676204725116032}
-  Screen: {fileID: 102946770735184918}
+  screen: {fileID: 4626838567818704}
+  screenText: {fileID: 102946770735184918}
   btn:
   - {fileID: 114538185942454364}
   - {fileID: 114236804486619834}

@@ -11,7 +11,8 @@ public class placeholderTalk : MonoBehaviour
     public KMAudio Audio;
     public KMBombModule Module;
     public KMBombInfo Info;
-    public TextMesh Screen;
+    public Transform screen;
+    public TextMesh screenText;
     public KMSelectable[] btn;
     public TextMesh[] txt;
     public Transform[] anchor;
@@ -21,7 +22,7 @@ public class placeholderTalk : MonoBehaviour
     private sbyte _previousModuleCarry = 0;
     private short _answerOffsetId;
     private int _moduleId = 0;
-    private float _yAnchor;
+    private float _yAnchor, _zScale = 0.12f;
     private string _screenText1 = "", _screenText2 = "";
 
     private static bool _playSound;
@@ -73,10 +74,10 @@ public class placeholderTalk : MonoBehaviour
         for (int i = 0; i < btn.Length; i++)
         {
             //amplification here
-            float amplified = 0.0064f;
+            float amplified = 0.005f;
      
             if (_animate)
-                anchor[i].transform.localPosition = new Vector3(anchor[i].transform.localPosition.x, anchor[i].transform.localPosition.y - (_yAnchor / 1000000), Mathf.Sin(Time.time + i * Mathf.PI / 2) * amplified - 0.064f);
+                anchor[i].transform.localPosition = new Vector3(anchor[i].transform.localPosition.x, anchor[i].transform.localPosition.y - (_yAnchor / 900000), Mathf.Sin(Time.time + i * Mathf.PI / 2) * amplified - 0.064f);
 
             float x = anchor[i].transform.position.x;
             float y = anchor[i].transform.position.y;
@@ -89,25 +90,35 @@ public class placeholderTalk : MonoBehaviour
 
                 if (_yAnchor < 245)
                 {
-                    //100 thousand so that it decreases -5 every frame
+                    //sets fade out
                     byte a = (byte)(txt[i].color.a - _yAnchor);
 
                     txt[i].color = new Color32(0, 0, 0, a);
-                    Screen.color = new Color32(255, 216, 0, a);
+                    screenText.color = new Color32(255, 216, 0, a);
                 }
 
                 else
                 {
+                    //sets all fonts to be invisible as the screen scales accordingly
+                    _zScale -= _zScale / 17;
+
                     txt[i].color = new Color32(0, 0, 0, 0);
-                    Screen.color = new Color32(255, 216, 0, 0);
+                    screenText.color = new Color32(255, 216, 0, 0);
                 }
 
                 if (_yAnchor == 350)
+                {
                     _animate = false;
+                    _zScale = 0;
+
+                    //hides it behind the module
+                    screen.transform.position = new Vector3(x, y, z);
+                }
             }
 
-            //update button positions
+            //update button positions and screen scaling
             btn[i].transform.position = new Vector3(x, y, z);
+            screen.localScale = new Vector3(0.12f, 0.02f, _zScale);
         }
         
 
@@ -256,7 +267,7 @@ public class placeholderTalk : MonoBehaviour
     /// </summary>
     void RenderText()
     {
-        Screen.text = "";
+        screenText.text = "";
 
         byte searchRange;
 
@@ -269,7 +280,7 @@ public class placeholderTalk : MonoBehaviour
             case 148:
                 formatText = false;
                 searchRange = 18;
-                Screen.fontSize = 100;
+                screenText.fontSize = 100;
                 break;
 
             //ultra large messages display smaller font size
@@ -279,14 +290,14 @@ public class placeholderTalk : MonoBehaviour
             case 163:
                 formatText = true;
                 searchRange = 35;
-                Screen.fontSize = 60;
+                screenText.fontSize = 60;
                 break;
 
             //normal display
             default:
                 formatText = true;
                 searchRange = 18;
-                Screen.fontSize = 110;
+                screenText.fontSize = 110;
                 break;
         }
 
@@ -297,7 +308,7 @@ public class placeholderTalk : MonoBehaviour
         for (int i = 0; i < renderedText.Length; i++)
         {
             //render the character as normal
-            Screen.text += renderedText[i];
+            screenText.text += renderedText[i];
         }
 
         //format it into screen.Text
@@ -328,11 +339,11 @@ public class placeholderTalk : MonoBehaviour
         {
             //converting placeholder line breaks to actual line breaks
             if (renderedText[i] == '§' && formatText)
-                Screen.text += "\n\n";
+                screenText.text += "\n\n";
 
             //render the character as normal
             else
-                Screen.text += renderedText[i];
+                screenText.text += renderedText[i];
         }
     }
 
@@ -341,11 +352,11 @@ public class placeholderTalk : MonoBehaviour
     /// </summary>
     void RandomText()
     {
-        Screen.text = "";
+        screenText.text = "";
 
         char[] renderedText = new char[13];
 
-        Screen.fontSize = 170;
+        screenText.fontSize = 170;
 
         for (int i = 0; i < renderedText.Length; i++)
         {
@@ -355,7 +366,7 @@ public class placeholderTalk : MonoBehaviour
             else
                 renderedText[i] = _generation2[i];
 
-            Screen.text += renderedText[i];
+            screenText.text += renderedText[i];
         }
     }
 
@@ -388,7 +399,7 @@ public class placeholderTalk : MonoBehaviour
 
             //1 in 100 chance of getting a funny message
             if (Random.Range(0, 100) == 0)
-                Screen.text = "talk time :)";
+                screenText.text = "talk time :)";
 
             Module.HandlePass();
             Audio.PlaySoundAtTransform("disarm", Module.transform);
@@ -717,7 +728,7 @@ public class placeholderTalk : MonoBehaviour
             "ADD N IN SECOND PHRASE WHERE N = AMOUNT OF TIMES THIS MODULE HAS BEEN SOLVED IN YOUR CURRENT BOMB",
 
             //68
-            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Assets/placeholderTalk.cs on line 720",
+            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Assets/placeholderTalk.cs on line 731",
             "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Manual/placeholderTalk.html on line 374",
             "/give @a command_block {Name:\"\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\\"} 1",
             "/ u r a u r a \" \\ Parse Error \" u r a \" \\ Parse u r a / \" \\ Parse Error \" Error \" \\ Parse Error / \"",
