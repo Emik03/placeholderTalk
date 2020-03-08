@@ -73,11 +73,13 @@ public class placeholderTalk : MonoBehaviour
         //makes the z coordinate based on sine waves for each button
         for (int i = 0; i < btn.Length; i++)
         {
-            //amplification here
-            float amplified = 0.005f;
+            //adjust sine wave here
+            float amplified = 0.002f;
+            byte frequency = 4;
      
+            //sine wave
             if (_animate)
-                anchor[i].transform.localPosition = new Vector3(anchor[i].transform.localPosition.x, anchor[i].transform.localPosition.y - (_yAnchor / 900000), Mathf.Sin(Time.time + i * Mathf.PI / 2) * amplified - 0.064f);
+                anchor[i].transform.localPosition = new Vector3(anchor[i].transform.localPosition.x, anchor[i].transform.localPosition.y - (_yAnchor / 900000), Mathf.Sin(frequency * Time.time + i * Mathf.PI / 2) * amplified - 0.062f);
 
             float x = anchor[i].transform.position.x;
             float y = anchor[i].transform.position.y;
@@ -91,10 +93,8 @@ public class placeholderTalk : MonoBehaviour
                 if (_yAnchor < 245)
                 {
                     //sets fade out
-                    byte a = (byte)(txt[i].color.a - _yAnchor);
-
-                    txt[i].color = new Color32(0, 0, 0, a);
-                    screenText.color = new Color32(255, 216, 0, a);
+                    txt[i].color = new Color32(0, 0, 0, (byte)(255 - _yAnchor));
+                    screenText.color = new Color32(255, 216, 0, (byte)(255 - _yAnchor));
                 }
 
                 else
