@@ -17,9 +17,13 @@ public class placeholderTalk : MonoBehaviour
     public TextMesh[] txt;
     public Transform[] anchor;
 
-    private bool _isSolved = false, _lightsOn = false, _isRandomising = false, formatText = true, _animate = true, _debug = false;
-    private byte _answerId, _questionId, _questionOffsetId, _randomised = 0, frames = 0;
-    private sbyte _previousModuleCarry = 0;
+    bool isSolved = false;
+    byte answerId;
+    sbyte previousModules = 0;
+    string currentOrdinal, firstString;
+
+    private bool _lightsOn = false, _isRandomising = false, formatText = true, _animate = true, _debug = false;
+    private byte _questionId, _questionOffsetId, _randomised = 0, frames = 0;
     private short _answerOffsetId;
     private int _moduleId = 0;
     private float _yAnchor, _zScale = 0.12f;
@@ -42,7 +46,7 @@ public class placeholderTalk : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        _previousModuleCarry = 0;
+        previousModules = 0;
         _playSound = true;
 
         for (int i = 0; i < 4; i++)
@@ -86,7 +90,7 @@ public class placeholderTalk : MonoBehaviour
             float z = anchor[i].transform.position.z;
 
             //if it's solved the buttons should move inwards
-            if (_isSolved && _yAnchor <= 350)
+            if (isSolved && _yAnchor <= 350)
             {
                 _yAnchor += 1f;
 
@@ -121,7 +125,6 @@ public class placeholderTalk : MonoBehaviour
             screen.localScale = new Vector3(0.12f, 0.02f, _zScale);
         }
         
-
         if (_isRandomising && !_debug)
         {
             //frame counter, a cycle is 3 frames
@@ -171,10 +174,12 @@ public class placeholderTalk : MonoBehaviour
     /// </summary>
     void Init()
     {
+        currentOrdinal = ordinals[Random.Range(0, ordinals.Length)];
+
         if (!_debug)
         {
             //determine the prompts given
-            _questionOffsetId = (byte)Random.Range(0, _firstPhrase.Length);
+            _questionOffsetId = (byte)Random.Range(0, firstPhrase.Length);
             _questionId = (byte)Random.Range(0, _secondPhrase.Length);
         }
 
@@ -186,9 +191,11 @@ public class placeholderTalk : MonoBehaviour
             //_questionId = 62;
         }
 
+        firstString = firstPhrase[_questionOffsetId];
+
         Debug.LogFormat("");
-        Debug.LogFormat("[Placeholder Talk #{0}] First Phrase ({2}): \"{1}\"", _moduleId, _firstPhrase[_questionOffsetId], _questionOffsetId);
-        Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase ({2}): \"{1}\"", _moduleId, _secondPhrase[_questionId].Replace("\n\n", " "), _questionId);
+        Debug.LogFormat("[Placeholder Talk #{0}] First Phrase ({1}): \"THE ANSWER {2} {3}\"", _moduleId, _questionOffsetId, firstPhrase[_questionOffsetId], currentOrdinal);
+        Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase ({1}): \"{2}\"", _moduleId, _questionId, _secondPhrase[_questionId].Replace("\n\n", " "));
 
         //start displaying message
         _isRandomising = true;
@@ -212,8 +219,8 @@ public class placeholderTalk : MonoBehaviour
             {
                 //render the real text
                 _screenText1 = "THE ANSWER ";
-                _screenText1 += _firstPhrase[_questionOffsetId] + "\n\n";
-                _screenText1 += _ordinals[Random.Range(0, _ordinals.Length)] + "\n\n";
+                _screenText1 += firstPhrase[_questionOffsetId] + "\n\n";
+                _screenText1 += currentOrdinal + "\n\n";
                 _screenText1 += "\n\n";
                 _screenText2 = _secondPhrase[_questionId];
 
@@ -247,11 +254,10 @@ public class placeholderTalk : MonoBehaviour
             _questionId++;
             _questionId %= 164;
 
-
             //debug
             _screenText1 = "THE ANSWER ";
-            _screenText1 += _firstPhrase[15] + "\n\n";
-            _screenText1 += _ordinals[7] + "\n\n";
+            _screenText1 += firstPhrase[15] + "\n\n";
+            _screenText1 += ordinals[7] + "\n\n";
             _screenText1 += "\n\n";
             _screenText2 = _secondPhrase[_questionId];
             //_screenText2 += "§";
@@ -380,11 +386,11 @@ public class placeholderTalk : MonoBehaviour
         btn[num].AddInteractionPunch(2);
 
         //if the lights are off or it's solved or it's randomising, do nothing
-        if (!_lightsOn || _isSolved || _isRandomising)
+        if (!_lightsOn || isSolved || _isRandomising)
             return;
 
         //include the amount of times solved if you got the special phrases
-        _answerOffsetId += (short)(_solvedTimes * _previousModuleCarry);
+        _answerOffsetId += (short)(_solvedTimes * previousModules);
         _answerOffsetId %= 4;
         _answerOffsetId += 4;
         _answerOffsetId %= 4;
@@ -403,7 +409,7 @@ public class placeholderTalk : MonoBehaviour
 
             Module.HandlePass();
             Audio.PlaySoundAtTransform("disarm", Module.transform);
-            _isSolved = true;
+            isSolved = true;
         }
 
         //strike condition
@@ -494,8 +500,8 @@ public class placeholderTalk : MonoBehaviour
         Debug.LogFormat("");
 
         //calculate answerId (second section of manual, second variable)
-        _answerId = (byte)(_questionId % 4);
-        Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Within the paragraph it's line number {1}, therefore the second phrase equals {1}.", _moduleId, _answerId + 1);
+        answerId = (byte)(_questionId % 4);
+        Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Within the paragraph it's line number {1}, therefore the second phrase equals {1}.", _moduleId, answerId + 1);
 
         //there's an exception where you add n for every n backslashes with phrases containing odd slashes
         //this also includes whether or not previous placeholder talks should be counted
@@ -514,7 +520,7 @@ public class placeholderTalk : MonoBehaviour
             case 110:
             case 133:
             case 134:
-                _answerId++;
+                answerId++;
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 1 backslash. Add 1.", _moduleId);
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes.", _moduleId);
                 break;
@@ -528,42 +534,42 @@ public class placeholderTalk : MonoBehaviour
             case 28:
             case 33:
             case 35:
-                _answerId += 2;
+                answerId += 2;
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 2 backslashes. Add 2.", _moduleId);
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes.", _moduleId);
                 break;
 
             //three backslashes
             case 148:
-                _answerId += 3;
+                answerId += 3;
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 3 backslashes. Add 3.", _moduleId);
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes.", _moduleId);
                 break;
 
             //four backslashes
             case 71:
-                _answerId += 4;
+                answerId += 4;
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 4 backslashes. Add 4.", _moduleId);
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes.", _moduleId);
                 break;
 
             //thirteen backslashes
             case 70:
-                _answerId += 13;
+                answerId += 13;
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 13 backslashes. Add 13.", _moduleId);
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes.", _moduleId);
                 break;
 
             //n statements (negative placeholder)
             case 66:
-                _previousModuleCarry = -1;
+                previousModules = -1;
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Even number of slashes on second phrase, continue without changes.", _moduleId);
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does contain the variable N, add -1 for every solved Placeholder Talk to second phrase.", _moduleId);
                 break;
 
             //n statements (positive placeholder)
             case 67:
-                _previousModuleCarry = 1;
+                previousModules = 1;
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Even number of slashes on second phrase, continue without changes.", _moduleId);
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does contain the variable N, add 1 for every solved Placeholder Talk to second phrase.", _moduleId);
                 break;
@@ -576,7 +582,7 @@ public class placeholderTalk : MonoBehaviour
 
             //n statements (n + 2)
             case 156:
-                _answerId += 2;
+                answerId += 2;
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Even number of slashes on second phrase, continue without changes.", _moduleId);
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does contain the variable N, add 2 to second phrase.", _moduleId);
                 break;
@@ -591,7 +597,7 @@ public class placeholderTalk : MonoBehaviour
         Debug.LogFormat("");
 
         //combine answers, remodulate them twice since it can give negatives for some reason
-        _answerOffsetId += _answerId;
+        _answerOffsetId += answerId;
         _answerOffsetId %= 4;
         _answerOffsetId += 4;
         _answerOffsetId %= 4;
@@ -600,15 +606,15 @@ public class placeholderTalk : MonoBehaviour
     }
 
     //first phrase
-    private readonly string[] _firstPhrase = new string[20]
+    readonly string[] firstPhrase = new string[20]
     {
             "", "IS IN THE", "IS THE", "IS IN UH", "IS", "IS AT", "IS INN", "IS THE IN", "IN IS", "IS IN.", "IS IN", "THE", "FIRST-", "IN", "UH IS IN", "AT", "LAST-", "UH", "KEYBORD", "A"
     };
 
     //random ordinals
-    private readonly string[] _ordinals = new string[10]
+    readonly string[] ordinals = new string[10]
     {
-            "", "FIRST POSITION", "SECOND POSITION", "THIRD POSITION", "FOURTH POSITION", "FIFTH POSITION", "MILLIONTH POSITION", "BILLIONTH POSITION", "LAST POSITION", "AN ANSWER"
+            "", "FIRST POS.", "SECOND POS.", "THIRD POS.", "FOURTH POS.", "FIFTH POS.", "MILLIONTH POS.", "BILLIONTH POS.", "LAST POS.", "AN ANSWER"
     };
 
     //second phrase generation
@@ -728,7 +734,7 @@ public class placeholderTalk : MonoBehaviour
             "ADD N IN SECOND PHRASE WHERE N = AMOUNT OF TIMES THIS MODULE HAS BEEN SOLVED IN YOUR CURRENT BOMB",
 
             //68
-            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Assets/placeholderTalk.cs on line 731",
+            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Assets/placeholderTalk.cs on line 737",
             "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Manual/placeholderTalk.html on line 374",
             "/give @a command_block {Name:\"\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\\"} 1",
             "/ u r a u r a \" \\ Parse Error \" u r a \" \\ Parse u r a / \" \\ Parse Error \" Error \" \\ Parse Error / \"",
