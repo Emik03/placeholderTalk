@@ -20,7 +20,10 @@ public class placeholderTalk : MonoBehaviour
     bool isSolved = false;
     byte answerId;
     sbyte previousModules = 0;
+
+#pragma warning disable 414
     string currentOrdinal, firstString;
+#pragma warning restore 414
 
     private bool _lightsOn = false, _isRandomising = false, formatText = true, _animate = true, _debug = false;
     private byte _questionId, _questionOffsetId, _randomised = 0, frames = 0;
@@ -201,7 +204,7 @@ public class placeholderTalk : MonoBehaviour
         _isRandomising = true;
 
         //generate an answer
-        Debug.LogFormat("[Placeholder Talk #{0}] (First Phrase + Second Phrase) mod 4 = {1}. Push the button labeled {1}.", _moduleId, GetAnswer() + 1);
+        Debug.LogFormat("[Placeholder Talk #{0}] (First Phrase + Second Phrase) modulated by 4 = {1}. Push the button labeled {2}.", _moduleId, (GetAnswer() + 1) % 4, GetAnswer() + 1);
         Debug.LogFormat("");
     }
 
@@ -404,7 +407,7 @@ public class placeholderTalk : MonoBehaviour
             Debug.LogFormat("[Placeholder Talk #{0}] Module Passed! The amount of times you solved is now {1}.", _moduleId, _solvedTimes);
 
             //1 in 100 chance of getting a funny message
-            if (Random.Range(0, 100) == 0)
+            if (Random.Range(0, 50) == 0)
                 screenText.text = "talk time :)";
 
             Module.HandlePass();
@@ -436,25 +439,21 @@ public class placeholderTalk : MonoBehaviour
 
         //step 2 for calculating the first variable is adding 1 for every strike
         _answerOffsetId += (short)(Info.GetStrikes());
-        Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: Previous Answer + {1} Strikes = {2}.", _moduleId, Info.GetStrikes(), _answerOffsetId);
+        Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + {1} (Strikes) = {2}.", _moduleId, Info.GetStrikes(), _answerOffsetId);
 
-        //step 3 for calculating the first variable is multiplying by battery count
-        _answerOffsetId *= (short)(Info.GetBatteryCount());
-        Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: Previous Answer * {1} Batteries = {2}.", _moduleId, Info.GetBatteryCount(), _answerOffsetId);
-
-        //step 4 for calculating the first variable is adding or subtracting based on the first phrase given
+        //step 3 for calculating the first variable is adding or subtracting based on the first phrase given
         switch (_questionOffsetId)
         {
             case 0:
                 _answerOffsetId++;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: Subtract N by -1.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - (-1) = {1}", _moduleId, _answerOffsetId);
                 break;
 
             case 1:
             case 2:
             case 3:
             case 16:
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: Subtract N by 0.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - 0 = {1}", _moduleId, _answerOffsetId);
                 break;
 
             case 4:
@@ -462,7 +461,7 @@ public class placeholderTalk : MonoBehaviour
             case 6:
             case 17:
                 _answerOffsetId--;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: Subtract N by 1.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - 1 = {1}", _moduleId, _answerOffsetId);
                 break;
 
             case 7:
@@ -470,7 +469,7 @@ public class placeholderTalk : MonoBehaviour
             case 9:
             case 18:
                 _answerOffsetId -= 2;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: Subtract N by 2.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - 2 = {1}", _moduleId, _answerOffsetId);
                 break;
 
             case 10:
@@ -478,30 +477,79 @@ public class placeholderTalk : MonoBehaviour
             case 12:
             case 19:
                 _answerOffsetId -= 3;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: Subtract N by 3.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - 3 = {1}", _moduleId, _answerOffsetId);
                 break;
 
             case 13:
                 _answerOffsetId -= 27;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: Subtract N by 27.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - 27 = {1}", _moduleId, _answerOffsetId);
                 break;
 
             case 14:
                 _answerOffsetId -= 30;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: Subtract N by 30.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - 27 = {1}", _moduleId, _answerOffsetId);
                 break;
 
             case 15:
                 _answerOffsetId += 2;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: Subtract N by -2.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - (-2) = {1}", _moduleId, _answerOffsetId);
                 break;
+        }
+
+        switch(currentOrdinal)
+        {
+            case "":
+                _answerOffsetId--;
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + (-1) = {1}", _moduleId, _answerOffsetId);
+                break;
+
+            case "FIRST POS.":
+                _answerOffsetId++;
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + 1 = {1}", _moduleId, _answerOffsetId);
+                break;
+
+            case "SECOND POS.":
+                _answerOffsetId += 2;
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + 2 = {1}", _moduleId, _answerOffsetId);
+                break;
+
+            case "THIRD POS.":
+                _answerOffsetId += 3;
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + 3 = {1}", _moduleId, _answerOffsetId);
+                break;
+
+            case "FOURTH POS.":
+                _answerOffsetId += 4;
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + 4 = {1}", _moduleId, _answerOffsetId);
+                break;
+
+            case "FIFTH POS.":
+                _answerOffsetId += 5;
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + 5 = {1}", _moduleId, _answerOffsetId);
+                break;
+
+            case "MILLIONTH POS.":
+            case "BILLIONTH POS.":
+                _answerOffsetId += 10;
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + 10 = {1}", _moduleId, _answerOffsetId);
+                break;
+
+            case "LAST POS.":
+                _answerOffsetId -= 4;
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + (-4) = {1}", _moduleId, _answerOffsetId);
+                break;
+
+            case "AN ANSWER":
+                _answerOffsetId -= 7;
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + (-7) = {1}", _moduleId, _answerOffsetId);
+                break; 
         }
 
         Debug.LogFormat("");
 
         //calculate answerId (second section of manual, second variable)
         answerId = (byte)(_questionId % 4);
-        Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Within the paragraph it's line number {1}, therefore the second phrase equals {1}.", _moduleId, answerId + 1);
+        Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: The phrase {1} is found under value {2}. Second Phrase: {2}.", _moduleId, _secondPhrase[_questionId].Replace("\n\n", " "), answerId + 1);
 
         //there's an exception where you add n for every n backslashes with phrases containing odd slashes
         //this also includes whether or not previous placeholder talks should be counted
@@ -521,8 +569,8 @@ public class placeholderTalk : MonoBehaviour
             case 133:
             case 134:
                 answerId++;
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 1 backslash. Add 1.", _moduleId);
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 1 backslash. Add 1. Second Phrase: {1}", _moduleId, answerId + 1);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes. Second Phrase: {1}", _moduleId, answerId + 1);
                 break;
 
             //two backslashes
@@ -535,62 +583,62 @@ public class placeholderTalk : MonoBehaviour
             case 33:
             case 35:
                 answerId += 2;
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 2 backslashes. Add 2.", _moduleId);
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 2 backslashes. Add 2. Second Phrase: {1}", _moduleId, answerId + 1);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes. Second Phrase: {1}", _moduleId, answerId + 1);
                 break;
 
             //three backslashes
             case 148:
                 answerId += 3;
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 3 backslashes. Add 3.", _moduleId);
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 3 backslashes. Add 3. Second Phrase: {1}", _moduleId, answerId + 1);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes. Second Phrase: {1}", _moduleId, answerId + 1);
                 break;
 
             //four backslashes
             case 71:
                 answerId += 4;
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 4 backslashes. Add 4.", _moduleId);
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 4 backslashes. Add 4. Second Phrase: {1}", _moduleId, answerId + 1);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes. Second Phrase: {1}", _moduleId, answerId + 1);
                 break;
 
             //thirteen backslashes
             case 70:
                 answerId += 13;
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 13 backslashes. Add 13.", _moduleId);
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 13 backslashes. Add 13. Second Phrase: {1}", _moduleId, answerId + 1);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes. Second Phrase: {1}", _moduleId, answerId + 1);
                 break;
 
             //n statements (negative placeholder)
             case 66:
                 previousModules = -1;
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Even number of slashes on second phrase, continue without changes.", _moduleId);
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does contain the variable N, add -1 for every solved Placeholder Talk to second phrase.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Even number of slashes on second phrase, continue without changes. Second Phrase: {1}", _moduleId, answerId + 1);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does contain the variable N, add -1 for every solved Placeholder Talk to second phrase. Second Phrase: {1}", _moduleId, answerId + 1);
                 break;
 
             //n statements (positive placeholder)
             case 67:
                 previousModules = 1;
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Even number of slashes on second phrase, continue without changes.", _moduleId);
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does contain the variable N, add 1 for every solved Placeholder Talk to second phrase.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Even number of slashes on second phrase, continue without changes. Second Phrase: {1}", _moduleId, answerId + 1);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does contain the variable N, add 1 for every solved Placeholder Talk to second phrase. Second Phrase: {1}", _moduleId, answerId + 1);
                 break;
 
             //n statements (n + 0)
             case 122:
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Even number of slashes on second phrase, continue without changes.", _moduleId);
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does contain the variable N, add 0 to second phrase.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Even number of slashes on second phrase, continue without changes. Second Phrase: {1}", _moduleId, answerId + 1);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does contain the variable N, add 0 to second phrase. Second Phrase: {1}", _moduleId, answerId + 1);
                 break;
 
             //n statements (n + 2)
             case 156:
                 answerId += 2;
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Even number of slashes on second phrase, continue without changes.", _moduleId);
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does contain the variable N, add 2 to second phrase.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Even number of slashes on second phrase, continue without changes. Second Phrase: {1}", _moduleId, answerId + 1);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does contain the variable N, add 2 to second phrase. Second Phrase: {1}", _moduleId, answerId + 1);
                 break;
 
             //everything else
             default:
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Even number of slashes on second phrase, continue without changes.", _moduleId);
-                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes.", _moduleId);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Even number of slashes on second phrase, continue without changes. Second Phrase: {1}", _moduleId, answerId + 1);
+                Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes. Second Phrase: {1}", _moduleId, answerId + 1);
                 break;
         }
 
@@ -603,12 +651,13 @@ public class placeholderTalk : MonoBehaviour
         _answerOffsetId %= 4;
 
         return _answerOffsetId;
+
     }
 
     //first phrase
     readonly string[] firstPhrase = new string[20]
     {
-            "", "IS IN THE", "IS THE", "IS IN UH", "IS", "IS AT", "IS INN", "IS THE IN", "IN IS", "IS IN.", "IS IN", "THE", "FIRST-", "IN", "UH IS IN", "AT", "LAST-", "UH", "KEYBORD", "A"
+            "", "IS IN THE", "IS THE", "IS IN UH", "IS", "IS AT", "IS INN", "IS THE IN", "IN IS", "IS IN.", "IS IN", "THE", "FIRST-", "IN", "UH IS IN", "AT", "LAST-", "UH", "LIES", "A"
     };
 
     //random ordinals
@@ -734,8 +783,8 @@ public class placeholderTalk : MonoBehaviour
             "ADD N IN SECOND PHRASE WHERE N = AMOUNT OF TIMES THIS MODULE HAS BEEN SOLVED IN YOUR CURRENT BOMB",
 
             //68
-            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Assets/placeholderTalk.cs on line 737",
-            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Manual/placeholderTalk.html on line 374",
+            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Assets/placeholderTalk.cs on line 786",
+            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Manual/placeholderTalk.html on line 388",
             "/give @a command_block {Name:\"\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\\"} 1",
             "/ u r a u r a \" \\ Parse Error \" u r a \" \\ Parse u r a / \" \\ Parse Error \" Error \" \\ Parse Error / \"",
 
