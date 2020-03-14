@@ -14,8 +14,8 @@ MonoBehaviour:
   id: placeholderTalk
   title: Placeholder Talk
   author: Emik
-  description: 'You might think that the screen telling you a specific position it
-    is pretty important. It really isn''t.
+  description: 'This was originally going to ask fun trivia questions with placeholder
+    questions used to test formatting, now those questions became the module itself.
 
 
     moduleId: placeholderTalk
@@ -28,6 +28,6 @@ MonoBehaviour:
 
 
     Is there a bug? Do you have a question? Discord: @Emik#0001'
-  version: 1.0.8
+  version: 1.1
   outputFolder: D:\Steam\steamapps\common\Keep Talking and Nobody Explodes\mods
   previewImage: {fileID: 2800000, guid: 067fce3afe1698e4aaecabc95db64f02, type: 3}

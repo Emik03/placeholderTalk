@@ -446,14 +446,14 @@ public class placeholderTalk : MonoBehaviour
         {
             case 0:
                 _answerOffsetId++;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - (-1) = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - (-1) = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
                 break;
 
             case 1:
             case 2:
             case 3:
             case 16:
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - 0 = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - 0 = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
                 break;
 
             case 4:
@@ -461,15 +461,15 @@ public class placeholderTalk : MonoBehaviour
             case 6:
             case 17:
                 _answerOffsetId--;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - 1 = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - 1 = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
                 break;
 
             case 7:
             case 8:
             case 9:
-            case 18:
+            case 80:
                 _answerOffsetId -= 2;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - 2 = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - 2 = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
                 break;
 
             case 10:
@@ -477,22 +477,22 @@ public class placeholderTalk : MonoBehaviour
             case 12:
             case 19:
                 _answerOffsetId -= 3;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - 3 = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - 3 = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
                 break;
 
             case 13:
                 _answerOffsetId -= 27;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - 27 = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - 27 = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
                 break;
 
             case 14:
                 _answerOffsetId -= 30;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - 27 = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - 27 = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
                 break;
 
             case 15:
                 _answerOffsetId += 2;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N - (-2) = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - (-2) = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
                 break;
         }
 
@@ -500,48 +500,48 @@ public class placeholderTalk : MonoBehaviour
         {
             case "":
                 _answerOffsetId--;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + (-1) = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + (-1) = {2}", _moduleId, currentOrdinal, _answerOffsetId);
                 break;
 
             case "FIRST POS.":
                 _answerOffsetId++;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + 1 = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + 1 = {2}", _moduleId, currentOrdinal, _answerOffsetId);
                 break;
 
             case "SECOND POS.":
                 _answerOffsetId += 2;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + 2 = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + 2 = {2}", _moduleId, currentOrdinal, _answerOffsetId);
                 break;
 
             case "THIRD POS.":
                 _answerOffsetId += 3;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + 3 = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + 3 = {2}", _moduleId, currentOrdinal, _answerOffsetId);
                 break;
 
             case "FOURTH POS.":
                 _answerOffsetId += 4;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + 4 = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + 4 = {2}", _moduleId, currentOrdinal, _answerOffsetId);
                 break;
 
             case "FIFTH POS.":
                 _answerOffsetId += 5;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + 5 = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + 5 = {2}", _moduleId, currentOrdinal, _answerOffsetId);
                 break;
 
             case "MILLIONTH POS.":
             case "BILLIONTH POS.":
                 _answerOffsetId += 10;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + 10 = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + 10 = {2}", _moduleId, currentOrdinal, _answerOffsetId);
                 break;
 
             case "LAST POS.":
                 _answerOffsetId -= 4;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + (-4) = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + (-4) = {2}", _moduleId, currentOrdinal, _answerOffsetId);
                 break;
 
             case "AN ANSWER":
                 _answerOffsetId -= 7;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + (-7) = {1}", _moduleId, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + (-7) = {2}", _moduleId, currentOrdinal, _answerOffsetId);
                 break; 
         }
 
@@ -705,9 +705,9 @@ public class placeholderTalk : MonoBehaviour
             "BACK BACK SLASH / \\",
 
             //16
-            "BLACKSASH",
+            "I JUST LOST THE GAME",
             "\\ \\ \\ BACK SLASH",
-            "LITERALLY JUST A / AND THEN A \\",
+            "SINCE WHEN DID WE HAVE A NEEDY?",
             "LITERALLY JUST A SLASH AND THEN A \\",
 
             //20
@@ -724,7 +724,7 @@ public class placeholderTalk : MonoBehaviour
 
             //28
             "\\ SLASH / SLASH / SLASH / SLASH \\",
-            "WAIT HOW MANY BATTERIES DO WE HAVE",
+            "ZEEROW",
             "QUOTE BACKSLASH SLASH BACKSLASH END QUOTE SYMBOLS",
             "BACKSASH",
 
@@ -744,7 +744,7 @@ public class placeholderTalk : MonoBehaviour
             "EMPTY",
             "IT'S EMPTY",
             "I CAN'T SEE ANYTHING",
-            "THE LIGHTS WENT OUT, HOLD ON",
+            "BACKHASH",
 
             //44
             "READY?",
@@ -760,7 +760,7 @@ public class placeholderTalk : MonoBehaviour
 
             //52
             "BLACKHASH",
-            "BACKHASH",
+            "THE LIGHTS WENT OUT, HOLD ON",
             "THERE ARE TWENTY OR SOMETHING SLASHES",
             "THERE ARE 20 OR SOMETHING SLASHES",
 
@@ -801,7 +801,7 @@ public class placeholderTalk : MonoBehaviour
             "WE HAVE WIRE SEQUENCES BLACK TO SEE",
 
             //80
-            "SINCE WHEN DID WE HAVE A NEEDY?",
+            "LITERALLY JUST A / AND THEN A \\",
             "ZEE ROW",
             "Z ROW",
             "THE ENTIRE ALPHABET",
@@ -833,7 +833,7 @@ public class placeholderTalk : MonoBehaviour
             //100
             "YOU ARE CUTTING OUT",
             "I CANNOT HEAR YOU",
-            "WAIT IT CHANGED",
+            "WAIT COMMA IS THIS A BACKSLASH?",
             "NEVERMIND ANOTHER MODULE",
 
             //104
@@ -852,7 +852,7 @@ public class placeholderTalk : MonoBehaviour
             "WHAT IS YOUR LEAST FAVORITE MODULE?",
             "THIS MASSAGE IS REALLY HARD TO COMMUNICATE",
             "THIS MESSAGE IS REALLY HARD TO COMMUNICATE",
-            "THE ANSWER IS IN UHHH SECOND POSITION",
+            "THE ANSWER IS IN THE UH SECOND POS.",
 
             //116
             "ALL WORDS THE NUMBER ZERO",
@@ -864,7 +864,7 @@ public class placeholderTalk : MonoBehaviour
             "0",
             "ZERO",
             "N + 0",
-            "ZEEROW",
+            "WAIT HOW MANY BATTERIES DO WE HAVE",
 
             //124
             "0 BATTERIES",
@@ -876,7 +876,7 @@ public class placeholderTalk : MonoBehaviour
             "SOME CHINESE CHARACTERS",
             "頁 - 設 - 是 - 煵",
             "THE TEXT DOESN'T FIT",
-            "AAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "AAAAAAAAAA",
 
             //132
             "FORWARD SLASH",
@@ -891,7 +891,7 @@ public class placeholderTalk : MonoBehaviour
             "THE SECOND PHRASE IS QUOTE BACKSLASH SLASH BACKSLASH UNQUOTE",
 
             //140
-            "WAIT COMMA IS THIS A BACKSLASH?",
+            "WAIT IT CHANGED",
             "ALPHA BRAVO CHARLIE DELTA ECHO FOXTROT",
             "WAIT COMMA IS THIS A BACKSLASH",
             "YOU JUST LOST THE GAME",
@@ -917,14 +917,15 @@ public class placeholderTalk : MonoBehaviour
             //156
             "N + 2",
             "OH WE BLEW UP AS IN THE COLOR",
-            "PRESS 1 IF >2 BATTERIES",
+            "PRESS 1 IF >2 BATTERIES, ELSE 2",
             "PARSE ERROR",
 
             //160
             "WAIT, IS THIS A BACKSLASH",
             "WAIT COMMA IS THIS A BACK SLASH",
-            "o m g guys we found a creeper in the downstairs bathroom lemme get my diamond hoe from the inventory and shit i just died. thank you so much for watching and have a great rest of your day, make sure to like, comment and subscribe and eat that bell icon like its enderman bacon\n\nFOOL",
-            "hello guys welcome back to another minecraft video and in todays video we will be talking about my brand new enderman holding a bacon statue, its furious, its hot and its powerful guys. its the definition of engineering at its finest, now lets enter from the rear of the building."
+			"hello guys welcome back to another minecraft video and in todays video we will be talking about my brand new enderman holding a bacon statue, its furious, its hot and its powerful guys. its the definition of engineering at its finest, now lets enter from the rear of the building.",
+            "o m g guys we found a creeper in the downstairs bathroom lemme get my diamond hoe from the inventory and shit i just died. thank you so much for watching and have a great rest of your day, make sure to like, comment and subscribe and eat that bell icon like its enderman bacon\n\nFOOL"
+            
     };
 
     /// <summary>
