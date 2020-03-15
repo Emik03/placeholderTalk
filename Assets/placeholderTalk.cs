@@ -181,14 +181,12 @@ public class placeholderTalk : MonoBehaviour
 
         if (!_debug)
         {
-            //determine the prompts given
             _questionOffsetId = (byte)Random.Range(0, firstPhrase.Length);
             _questionId = (byte)Random.Range(0, _secondPhrase.Length);
         }
 
         else
         {
-            //determine the prompts given
             _questionOffsetId = 15;
             _questionId = 158;
             //_questionId = 62;
@@ -560,10 +558,10 @@ public class placeholderTalk : MonoBehaviour
             case 10:
             case 13:
             case 15:
-            case 18:
+            case 19:
             case 68:
             case 69:
-            case 98:
+            case 80:
             case 99:
             case 110:
             case 133:
@@ -582,6 +580,8 @@ public class placeholderTalk : MonoBehaviour
             case 28:
             case 33:
             case 35:
+            case 98:
+            case 138:
                 answerId += 2;
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Odd number of slashes on second phrase, message contains 2 backslashes. Add 2. Second Phrase: {1}", _moduleId, answerId + 1);
                 Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: Does not contain the variable N, continue without changes. Second Phrase: {1}", _moduleId, answerId + 1);
