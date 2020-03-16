@@ -33,7 +33,7 @@ public class placeholderTalk : MonoBehaviour
     private string _screenText1 = "", _screenText2 = "";
 
     private static bool _playSound;
-    private static int _solvedTimes = 0, _moduleIdCounter = 1;
+    private static int _moduleIdCounter = 1;
 
     /// <summary>
     /// Code that runs when bomb is loading.
@@ -86,35 +86,38 @@ public class placeholderTalk : MonoBehaviour
      
             //sine wave
             if (_animate)
-                anchor[i].transform.localPosition = new Vector3(anchor[i].transform.localPosition.x, anchor[i].transform.localPosition.y - (_yAnchor / 900000), Mathf.Sin(frequency * Time.time + i * Mathf.PI / 2) * amplified - 0.062f);
+                anchor[i].transform.localPosition = new Vector3(anchor[i].transform.localPosition.x, anchor[i].transform.localPosition.y, Mathf.Sin(frequency * Time.time + i * Mathf.PI / 2) * amplified - 0.062f);
 
+            //stores all positions
             float x = anchor[i].transform.position.x;
             float y = anchor[i].transform.position.y;
             float z = anchor[i].transform.position.z;
 
             //if it's solved the buttons should move inwards
-            if (isSolved && _yAnchor <= 350)
+            if (isSolved && _yAnchor <= 250)
             {
                 _yAnchor += 1f;
 
-                if (_yAnchor < 245)
+                if (_yAnchor < 145)
                 {
                     //sets fade out
-                    txt[i].color = new Color32(0, 0, 0, (byte)(255 - _yAnchor));
-                    screenText.color = new Color32(255, 216, 0, (byte)(255 - _yAnchor));
+                    txt[i].color = new Color32(0, 0, 0, (byte)(145 - _yAnchor));
+                    screenText.color = new Color32(255, 216, 0, (byte)(145 - _yAnchor));
                 }
 
                 else
                 {
                     //sets all fonts to be invisible as the screen scales accordingly
                     _zScale -= _zScale / 17;
+                    anchor[i].transform.localPosition = new Vector3(anchor[i].transform.localPosition.x, anchor[i].transform.localPosition.y - ((_yAnchor - 145) / 50000), anchor[i].transform.localPosition.z);
 
                     txt[i].color = new Color32(0, 0, 0, 0);
                     screenText.color = new Color32(255, 216, 0, 0);
                 }
 
-                if (_yAnchor == 350)
+                if (_yAnchor == 250)
                 {
+                    //disable sinewave animation, finishes animation
                     _animate = false;
                     _zScale = 0;
 
@@ -177,6 +180,7 @@ public class placeholderTalk : MonoBehaviour
     /// </summary>
     void Init()
     {
+        previousModules = 0;
         currentOrdinal = ordinals[Random.Range(0, ordinals.Length)];
 
         if (!_debug)
@@ -198,11 +202,11 @@ public class placeholderTalk : MonoBehaviour
         Debug.LogFormat("[Placeholder Talk #{0}] First Phrase ({1}): \"THE ANSWER {2} {3}\"", _moduleId, _questionOffsetId, firstPhrase[_questionOffsetId], currentOrdinal);
         Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase ({1}): \"{2}\"", _moduleId, _questionId, _secondPhrase[_questionId].Replace("\n\n", " "));
 
-        //start displaying message
+        //start the shuffling generation effect
         _isRandomising = true;
 
         //generate an answer
-        Debug.LogFormat("[Placeholder Talk #{0}] (First Phrase + Second Phrase) modulated by 4 = {1}. Push the button labeled {2}.", _moduleId, (GetAnswer() + 1) % 4, GetAnswer() + 1);
+        Debug.LogFormat("[Placeholder Talk #{0}] (First Phrase + Second Phrase) modulated by 4 = {1}. Push the button labeled {2}.", _moduleId, GetAnswer() + 1, GetAnswer() + 1);
         Debug.LogFormat("");
     }
 
@@ -250,6 +254,7 @@ public class placeholderTalk : MonoBehaviour
             }
         }
 
+        //debug
         else
         {
             _questionId++;
@@ -390,21 +395,12 @@ public class placeholderTalk : MonoBehaviour
         if (!_lightsOn || isSolved || _isRandomising)
             return;
 
-        //include the amount of times solved if you got the special phrases
-        _answerOffsetId += (short)(_solvedTimes * previousModules);
-        _answerOffsetId %= 4;
-        _answerOffsetId += 4;
-        _answerOffsetId %= 4;
-
         //if the button pushed is correct, initiate solved module status
         if (num == _answerOffsetId)
         {
-            //increment the amount of times the module has been solved with one
-            _solvedTimes++;
+            Debug.LogFormat("[Placeholder Talk #{0}] Module Passed! The amount of times you solved is now {1}.", _moduleId, Info.GetSolvedModuleNames().Count(s => s == "Placeholder Talk"));
 
-            Debug.LogFormat("[Placeholder Talk #{0}] Module Passed! The amount of times you solved is now {1}.", _moduleId, _solvedTimes);
-
-            //1 in 100 chance of getting a funny message
+            //1 in 50 chance of getting a funny message
             if (Random.Range(0, 50) == 0)
                 screenText.text = "talk time :)";
 
@@ -644,14 +640,18 @@ public class placeholderTalk : MonoBehaviour
 
         Debug.LogFormat("");
 
-        //combine answers, remodulate them twice since it can give negatives for some reason
+        //combine answers
         _answerOffsetId += answerId;
+
+        //include the amount of times solved if you got the special phrases about N = previous modules
+        _answerOffsetId += (short)(Info.GetSolvedModuleNames().Count(s => s == "Placeholder Talk") * previousModules);
+
+        //remodulate them twice since it can give negatives for some reason
         _answerOffsetId %= 4;
         _answerOffsetId += 4;
         _answerOffsetId %= 4;
 
         return _answerOffsetId;
-
     }
 
     //first phrase
