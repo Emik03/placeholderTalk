@@ -27,7 +27,7 @@ public class placeholderTalk : MonoBehaviour
 
     private bool _lightsOn = false, _isRandomising = false, formatText = true, _animate = true, _debug = false;
     private byte _questionId, _questionOffsetId, _randomised = 0, frames = 0;
-    private short _answerOffsetId;
+    private short _answerOffsetId, _strikes;
     private int _moduleId = 0;
     private float _yAnchor, _zScale = 0.12f;
     private string _screenText1 = "", _screenText2 = "";
@@ -206,7 +206,7 @@ public class placeholderTalk : MonoBehaviour
         _isRandomising = true;
 
         //generate an answer
-        Debug.LogFormat("[Placeholder Talk #{0}] (First Phrase + Second Phrase) modulated by 4 = {1}. Push the button labeled {2}.", _moduleId, GetAnswer() + 1, GetAnswer() + 1);
+        Debug.LogFormat("[Placeholder Talk #{0}] (First Phrase + Second Phrase) modulated by 4 = {1}. Push the button labeled {1}.", _moduleId, GetAnswer() + 1);
         Debug.LogFormat("");
     }
 
@@ -228,13 +228,6 @@ public class placeholderTalk : MonoBehaviour
                 _screenText1 += currentOrdinal + "\n\n";
                 _screenText1 += "\n\n";
                 _screenText2 = _secondPhrase[_questionId];
-
-                //meme text for thumbnail
-                //_screenText1 = "THE ANSWER ";
-                //_screenText1 += _firstPhrase[18] + "\n\n";
-                //_screenText1 += _ordinals[9] + "\n\n";
-                //_screenText1 += "\n\n";
-                //_screenText2 = _secondPhrase[143];
 
                 //render the text
                 RenderText();
@@ -266,8 +259,6 @@ public class placeholderTalk : MonoBehaviour
             _screenText1 += ordinals[7] + "\n\n";
             _screenText1 += "\n\n";
             _screenText2 = _secondPhrase[_questionId];
-            //_screenText2 += "§";
-            //_screenText2 += temp;
 
             //render the text
             RenderText();
@@ -395,6 +386,14 @@ public class placeholderTalk : MonoBehaviour
         if (!_lightsOn || isSolved || _isRandomising)
             return;
 
+        //update strikes
+        _strikes = (short)(Info.GetStrikes() - _strikes);
+        _answerOffsetId += _strikes;
+        _answerOffsetId %= 4;
+
+        if (_strikes != 0)
+            Debug.LogFormat("[Placeholder Talk #{0}]: Noticed an additional strike, this means that the answer changes. The correct answer is now {1}.", _moduleId, _answerOffsetId + 1);
+
         //if the button pushed is correct, initiate solved module status
         if (num == _answerOffsetId)
         {
@@ -432,7 +431,8 @@ public class placeholderTalk : MonoBehaviour
         Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: Start with N = {1}.", _moduleId, _answerOffsetId);
 
         //step 2 for calculating the first variable is adding 1 for every strike
-        _answerOffsetId += (short)(Info.GetStrikes());
+        _strikes = (short)Info.GetStrikes();
+        _answerOffsetId += _strikes;
         Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + {1} (Strikes) = {2}.", _moduleId, Info.GetStrikes(), _answerOffsetId);
 
         //step 3 for calculating the first variable is adding or subtracting based on the first phrase given
