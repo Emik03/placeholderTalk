@@ -461,7 +461,7 @@ public class placeholderTalk : MonoBehaviour
             case 7:
             case 8:
             case 9:
-            case 80:
+            case 18:
                 _answerOffsetId -= 2;
                 Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - 2 = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
                 break;
