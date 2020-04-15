@@ -83,11 +83,11 @@ public class placeholderTalk : MonoBehaviour
             //adjust sine wave here
             float amplified = 0.002f;
             byte frequency = 4;
-     
+            
             //sine wave
             if (_animate)
                 anchor[i].transform.localPosition = new Vector3(anchor[i].transform.localPosition.x, anchor[i].transform.localPosition.y, Mathf.Sin(frequency * Time.time + i * Mathf.PI / 2) * amplified - 0.062f);
-
+            
             //stores all positions
             float x = anchor[i].transform.position.x;
             float y = anchor[i].transform.position.y;
@@ -397,15 +397,18 @@ public class placeholderTalk : MonoBehaviour
         //if the button pushed is correct, initiate solved module status
         if (num == _answerOffsetId)
         {
+            Module.HandlePass();
+            Audio.PlaySoundAtTransform("disarm", Module.transform);
+            isSolved = true;
+
             Debug.LogFormat("[Placeholder Talk #{0}] Module Passed! The amount of times you solved is now {1}.", _moduleId, Info.GetSolvedModuleNames().Count(s => s == "Placeholder Talk"));
 
             //1 in 50 chance of getting a funny message
             if (Random.Range(0, 50) == 0)
+            {
                 screenText.text = "talk time :)";
-
-            Module.HandlePass();
-            Audio.PlaySoundAtTransform("disarm", Module.transform);
-            isSolved = true;
+                Debug.LogFormat("[Placeholder Talk #{0}] talk time :)", _moduleId);
+            }
         }
 
         //strike condition
@@ -714,7 +717,7 @@ public class placeholderTalk : MonoBehaviour
             "ALL OF THESE ARE WORDS: \\ / \\",
             "ALL OF THESE ARE SYMBOLS: SLASH SLASH BACKSLASH",
             "BACKSLASH SLASH SLASH, THE FIRST AND THIRD ARE SYMBOLS",
-            "FIRST, SECOND AND THIRD ARE SYMBOLS, READY? \\ \\ / BACKSLASH",
+            "THE FIRST, SECOND AND THIRD ARE SYMBOLS, READY? \\ \\ / BACKSLASH",
 
             //24
             "WAIT, IS THIS A BACKSLASH?",
