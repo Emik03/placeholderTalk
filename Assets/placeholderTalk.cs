@@ -168,7 +168,7 @@ public class placeholderTalk : MonoBehaviour
         {
             //frame counter, a cycle is however many frames it modulates
             frames++;
-            frames %= 25;
+            frames %= 255;
 
             if (frames == 0)
                 UpdateText(false);
@@ -192,8 +192,7 @@ public class placeholderTalk : MonoBehaviour
         else
         {
             _questionOffsetId = 15;
-            _questionId = 158;
-            //_questionId = 62;
+            _questionId = 147;
         }
 
         firstString = firstPhrase[_questionOffsetId];
@@ -271,7 +270,6 @@ public class placeholderTalk : MonoBehaviour
     void RenderText()
     {
         screenText.text = "";
-
         byte searchRange;
 
         //proper formatting
@@ -280,10 +278,11 @@ public class placeholderTalk : MonoBehaviour
             //error messages should display one line
             case 68:
             case 69:
+            case 70:
             case 148:
                 formatText = false;
                 searchRange = 18;
-                screenText.fontSize = 100;
+                screenText.fontSize = 85;
                 break;
 
             //ultra large messages display smaller font size
@@ -324,9 +323,6 @@ public class placeholderTalk : MonoBehaviour
         //while it isn't outside of the array
         while (startPos < renderedText.Length && formatText)
         {
-            if (startPos == 0)
-                break;
-
             //change it to placeholder line break
             if (renderedText[startPos] == ' ')
             {
@@ -434,23 +430,23 @@ public class placeholderTalk : MonoBehaviour
         Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: Start with N = {1}.", _moduleId, _answerOffsetId);
 
         //step 2 for calculating the first variable is adding 1 for every strike
-        _strikes = (short)Info.GetStrikes();
+        _strikes += (short)Info.GetStrikes();
         _answerOffsetId += _strikes;
-        Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: N + {1} (Strikes) = {2}.", _moduleId, Info.GetStrikes(), _answerOffsetId);
+        Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} + {2} (Strikes) = {3}.", _moduleId, _answerOffsetId - Info.GetStrikes(), Info.GetStrikes(), _answerOffsetId);
 
         //step 3 for calculating the first variable is adding or subtracting based on the first phrase given
         switch (_questionOffsetId)
         {
             case 0:
                 _answerOffsetId++;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - (-1) = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} - (-1) = {3}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId - 1, _answerOffsetId);
                 break;
 
             case 1:
             case 2:
             case 3:
             case 16:
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - 0 = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} - 0 = {3}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId, _answerOffsetId);
                 break;
 
             case 4:
@@ -458,7 +454,7 @@ public class placeholderTalk : MonoBehaviour
             case 6:
             case 17:
                 _answerOffsetId--;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - 1 = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} - 1 = {3}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId + 1, _answerOffsetId);
                 break;
 
             case 7:
@@ -466,7 +462,7 @@ public class placeholderTalk : MonoBehaviour
             case 9:
             case 18:
                 _answerOffsetId -= 2;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - 2 = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} - 2 = {3}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId + 2, _answerOffsetId);
                 break;
 
             case 10:
@@ -474,22 +470,22 @@ public class placeholderTalk : MonoBehaviour
             case 12:
             case 19:
                 _answerOffsetId -= 3;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - 3 = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} - 3 = {3}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId + 3, _answerOffsetId);
                 break;
 
             case 13:
                 _answerOffsetId -= 27;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - 27 = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} - 27 = {3}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId + 27, _answerOffsetId);
                 break;
 
             case 14:
                 _answerOffsetId -= 30;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - 27 = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} - 27 = {3}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId + 30, _answerOffsetId);
                 break;
 
             case 15:
                 _answerOffsetId += 2;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N - (-2) = {2}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} - (-2) = {3}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId - 2, _answerOffsetId);
                 break;
         }
 
@@ -497,48 +493,48 @@ public class placeholderTalk : MonoBehaviour
         {
             case "":
                 _answerOffsetId--;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + (-1) = {2}", _moduleId, currentOrdinal, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} + (-1) = {3}", _moduleId, currentOrdinal, _answerOffsetId + 1, _answerOffsetId);
                 break;
 
             case "FIRST POS.":
                 _answerOffsetId++;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + 1 = {2}", _moduleId, currentOrdinal, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} + 1 = {3}", _moduleId, currentOrdinal, _answerOffsetId - 1, _answerOffsetId);
                 break;
 
             case "SECOND POS.":
                 _answerOffsetId += 2;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + 2 = {2}", _moduleId, currentOrdinal, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} + 2 = {3}", _moduleId, currentOrdinal, _answerOffsetId - 2, _answerOffsetId);
                 break;
 
             case "THIRD POS.":
                 _answerOffsetId += 3;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + 3 = {2}", _moduleId, currentOrdinal, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} + 3 = {3}", _moduleId, currentOrdinal, _answerOffsetId - 3, _answerOffsetId);
                 break;
 
             case "FOURTH POS.":
                 _answerOffsetId += 4;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + 4 = {2}", _moduleId, currentOrdinal, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} + 4 = {3}", _moduleId, currentOrdinal, _answerOffsetId - 4, _answerOffsetId);
                 break;
 
             case "FIFTH POS.":
                 _answerOffsetId += 5;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + 5 = {2}", _moduleId, currentOrdinal, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} + 5 = {3}", _moduleId, currentOrdinal, _answerOffsetId - 5, _answerOffsetId);
                 break;
 
             case "MILLIONTH POS.":
             case "BILLIONTH POS.":
                 _answerOffsetId += 10;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + 10 = {2}", _moduleId, currentOrdinal, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} + 10 = {3}", _moduleId, currentOrdinal, _answerOffsetId - 10, _answerOffsetId);
                 break;
 
             case "LAST POS.":
                 _answerOffsetId -= 4;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + (-4) = {2}", _moduleId, currentOrdinal, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} + (-4) = {3}", _moduleId, currentOrdinal, _answerOffsetId + 4, _answerOffsetId);
                 break;
 
             case "AN ANSWER":
                 _answerOffsetId -= 7;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = N + (-7) = {2}", _moduleId, currentOrdinal, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} + (-7) = {3}", _moduleId, currentOrdinal, _answerOffsetId + 7, _answerOffsetId);
                 break; 
         }
 
@@ -546,7 +542,7 @@ public class placeholderTalk : MonoBehaviour
 
         //calculate answerId (second section of manual, second variable)
         answerId = (byte)(_questionId % 4);
-        Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: The phrase {1} is found under value {2}. Second Phrase: {2}.", _moduleId, _secondPhrase[_questionId].Replace("\n\n", " "), answerId + 1);
+        Debug.LogFormat("[Placeholder Talk #{0}] Second Phrase: The phrase \"{1}\" is found under value {2}. Second Phrase: {2}.", _moduleId, _secondPhrase[_questionId].Replace("\n\n", " "), answerId + 1);
 
         //there's an exception where you add n for every n backslashes with phrases containing odd slashes
         //this also includes whether or not previous placeholder talks should be counted
@@ -786,9 +782,9 @@ public class placeholderTalk : MonoBehaviour
             "ADD N IN SECOND PHRASE WHERE N = AMOUNT OF TIMES THIS MODULE HAS BEEN SOLVED IN YOUR CURRENT BOMB",
 
             //68
-            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Assets/placeholderTalk.cs on line 786",
-            "Parse error: syntax error, unexpected ''\\'' in /placeholderTalk/Manual/placeholderTalk.html on line 388",
-            "/give @a command_block {Name:\"\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\\"} 1",
+            "Parse error: syntax\n\nerror, unexpected\n\n''\\'' in /placeholderTalk/\n\nAssets/placeholderTalk.cs\n\non line 786",
+            "Parse error: syntax\n\nerror, unexpected\n\n''\\'' in /placeholderTalk/\n\nManual/placeholderTalk.html\n\n on line 388",
+            "/give @a command_block\n\n{Name:\"\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\\"} 1",
             "/ u r a u r a \" \\ Parse Error \" u r a \" \\ Parse u r a / \" \\ Parse Error \" Error \" \\ Parse Error / \"",
 
             //72
@@ -906,7 +902,7 @@ public class placeholderTalk : MonoBehaviour
             "え - み - さ - ん",
 
             //148
-            "Error: MissingComponentException (Could not find \"/screenFont\" in F:\\placeholderTalk\\Assets\\Materials)",
+            "Error:\n\nMissingComponentException\n\n(Could not find \"/screenFont\"\n\nin F:\\placeholderTalk\\\n\nAssets\\Materials)",
             "IT'S THE SAME AS BEFORE",
             "THIS MODULE HAS BEEN SPONSORED BY RAID SHADOW LEGENDS",
             "OH WE BLUE UP AS IN THE COLOR",
