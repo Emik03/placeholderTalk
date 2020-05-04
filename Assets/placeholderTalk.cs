@@ -430,7 +430,7 @@ public class placeholderTalk : MonoBehaviour
         Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: Start with N = {1}.", _moduleId, _answerOffsetId);
 
         //step 2 for calculating the first variable is adding 1 for every strike
-        _strikes += (short)Info.GetStrikes();
+        _strikes = (short)Info.GetStrikes();
         _answerOffsetId += _strikes;
         Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} + {2} (Strikes) = {3}.", _moduleId, _answerOffsetId - Info.GetStrikes(), Info.GetStrikes(), _answerOffsetId);
 
