@@ -397,7 +397,7 @@ public class placeholderTalk : MonoBehaviour
             Audio.PlaySoundAtTransform("disarm", Module.transform);
             isSolved = true;
 
-            Debug.LogFormat("[Placeholder Talk #{0}] Module Passed! The amount of times you solved is now {1}.", _moduleId, Info.GetSolvedModuleNames().Count(s => s == "Placeholder Talk"));
+            Debug.LogFormat("[Placeholder Talk #{0}] Module Passed! The amount of times you solved this module is now {1}.", _moduleId, Info.GetSolvedModuleNames().Count(s => s == "Placeholder Talk"));
 
             //1 in 50 chance of getting a funny message
             if (Random.Range(0, 50) == 0)
@@ -985,7 +985,7 @@ public class placeholderTalk : MonoBehaviour
     /// </summary>
     IEnumerator TwitchHandleForcedSolve()
     {
-        btn[_answerOffsetId].OnInteract();
         yield return null;
+        btn[(_answerOffsetId + Info.GetStrikes() - _strikes) % 4].OnInteract();
     }
 }
