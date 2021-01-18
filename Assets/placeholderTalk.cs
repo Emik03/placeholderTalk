@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Linq;
-using Newtonsoft.Json;
-using KModkit;
 
 public class placeholderTalk : MonoBehaviour
 {
@@ -480,7 +477,7 @@ public class placeholderTalk : MonoBehaviour
 
             case 14:
                 _answerOffsetId -= 30;
-                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} - 27 = {3}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId + 30, _answerOffsetId);
+                Debug.LogFormat("[Placeholder Talk #{0}] First Phrase: {1} = {2} - 30 = {3}", _moduleId, firstPhrase[_questionOffsetId], _answerOffsetId + 30, _answerOffsetId);
                 break;
 
             case 15:
@@ -553,7 +550,6 @@ public class placeholderTalk : MonoBehaviour
             case 10:
             case 13:
             case 15:
-            case 19:
             case 68:
             case 69:
             case 80:
